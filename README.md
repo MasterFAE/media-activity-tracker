@@ -11,3 +11,7 @@
 - Dashboard ekranı
 - Profil kategoriye göre filtreleme
 - Kategoriye göre API'den uzunluk bilgisi çekme
+
+# Responsive dialog - Drawer
+
+Mobil cihazlarda dialogları drawer olarak göster

@@ -4,10 +4,16 @@ import { cn } from "@/lib/utils";
 import { userMock } from "@/model/mock";
 import Link from "next/link";
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import MobileNavbar from "./MobileNavbar";
+import UserAvatar from "../UserAvatar";
+import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
 
 const Header = () => {
   const scrolled = useScroll(5);
+  const path = usePathname();
+  const isInApp = path.includes("/app");
+
   return (
     <header
       className={cn(
@@ -26,20 +32,29 @@ const Header = () => {
           </Link>
         </div>
 
-        {userMock.loggedIn ? (
-          <div className="hidden md:block">
-            <Avatar>
-              <AvatarImage src={userMock.avatarUrl} />
-              <AvatarFallback>{userMock.username}</AvatarFallback>
-            </Avatar>
-          </div>
-        ) : (
-          <div className="hidden md:block">
-            <div className="h-8 w-8 rounded-full bg-zinc-300 flex items-center justify-center text-center">
-              <span className="font-semibold text-sm">Login</span>
+        <div className="hidden md:block">
+          {isInApp ? (
+            <>
+              <UserAvatar
+                username={userMock.username}
+                avatarUrl={userMock.avatarUrl}
+              />
+              <div className="block md:hidden">
+                <MobileNavbar />
+              </div>
+            </>
+          ) : (
+            <div className="flex space-x-2">
+              <Link href={"/auth/login"}>
+                <Button variant={"secondary"}>Sign Up</Button>
+              </Link>
+              <Link href={"/auth/login"}>
+                <Button>Sign In</Button>
+              </Link>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+        {}
       </div>
     </header>
   );

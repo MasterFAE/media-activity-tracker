@@ -4,6 +4,7 @@ import React from "react";
 import { progress, savedMock } from "@/model/mock";
 import { Badge } from "@/components/ui/badge";
 import ProfileSettingsDropdown from "@/components/Profile/ProfileSettingsDropdown";
+import UserAvatar from "@/components/UserAvatar";
 
 const username = "shadcn";
 const ProfilePage = () => {
@@ -12,10 +13,10 @@ const ProfilePage = () => {
       <div>
         <div className="flex justify-between">
           <div className="flex items-center gap-x-2">
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>{username}</AvatarFallback>
-            </Avatar>
+            <UserAvatar
+              username={username}
+              avatarUrl="https://github.com/shadcn.png"
+            />
             <div className="flex items-center gap-2">
               <h1 className="text-2xl">{username}</h1>
               <ProfileSettingsDropdown user={null} />
