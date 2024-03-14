@@ -9,7 +9,7 @@ import {
 import { MenuIcon } from "lucide-react";
 import UserAvatar from "../UserAvatar";
 import SidebarList from "./SidebarList";
-import { userMock } from "@/model/mock";
+import { userMock } from "@/types/mock";
 
 const MobileNavbar = () => {
   return (

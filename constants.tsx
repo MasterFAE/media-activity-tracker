@@ -8,7 +8,7 @@ import {
   LogInIcon,
   UserPlusIcon,
 } from "lucide-react";
-import { SidebarItem } from "./model/sidebar-item";
+import { SidebarItem } from "./types";
 
 export const SidebarItems: SidebarItem[] = [
   {

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import type { SidebarItem } from "@/model/sidebar-item";
+import type { SidebarItem } from "@/types";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";

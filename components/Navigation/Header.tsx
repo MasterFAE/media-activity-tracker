@@ -1,7 +1,7 @@
 "use client";
 import useScroll from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
-import { userMock } from "@/model/mock";
+import { userMock } from "@/types/mock";
 import Link from "next/link";
 import React from "react";
 import MobileNavbar from "./MobileNavbar";

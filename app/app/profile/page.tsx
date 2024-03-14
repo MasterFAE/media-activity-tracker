@@ -1,6 +1,6 @@
 import React from "react";
 import SavedCard from "@/components/SavedCard/SavedCard";
-import { progress, savedMock, userMock } from "@/model/mock";
+import { progress, savedMock, userMock } from "@/types/mock";
 import { Badge } from "@/components/ui/badge";
 import ProfileSettingsDropdown from "@/components/Profile/ProfileSettingsDropdown";
 import UserAvatar from "@/components/UserAvatar";

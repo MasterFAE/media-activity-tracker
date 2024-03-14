@@ -4,7 +4,6 @@ import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Navigation/Header";
-import Sidebar from "@/components/Navigation/Sidebar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -22,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           "min-h-screen min-w-screen bg-background font-sans antialiased",

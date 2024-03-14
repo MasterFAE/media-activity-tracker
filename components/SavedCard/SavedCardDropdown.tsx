@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { DialogHeader, DialogFooter } from "../ui/dialog";
-import { SavedMock } from "@/model/mock";
+import { SavedMock } from "@/types/mock";
 
 type Props = {
   item: SavedMock;

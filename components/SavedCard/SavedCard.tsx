@@ -2,7 +2,7 @@
 import React from "react";
 import { Badge } from "../ui/badge";
 import { Progress } from "../ui/progress";
-import { SavedMock } from "@/model/mock";
+import { SavedMock } from "@/types/mock";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import SavedCardDropdown from "./SavedCardDropdown";
