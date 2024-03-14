@@ -1,7 +1,8 @@
 # TODO
 
-- Navbar
-- Mobile Navbar
+X Navbar X Mobile Navbar
+
+- Home page responsive
 - Login / Register Page
 - Add - Update Item Modal
 - Add Progress Modal

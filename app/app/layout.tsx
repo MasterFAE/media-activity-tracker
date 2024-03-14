@@ -1,5 +1,6 @@
-import Sidebar from "@/components/Navigation/Sidebar";
+"use client";
 import React from "react";
+import Sidebar from "@/components/Navigation/Sidebar";
 
 type Props = {
   children: React.ReactNode;
@@ -7,10 +8,9 @@ type Props = {
 
 const AppLayout = ({ children }: Props) => {
   return (
-    <div className="flex ">
+    <div className="flex">
       <Sidebar />
-
-      <main className=" bg-white dark:bg-black min-h-screen w-full  lg:my-3 border rounded-md">
+      <main className={`bg-white dark:bg-black min-h-screen w-full rounded-md`}>
         {children}
       </main>
     </div>

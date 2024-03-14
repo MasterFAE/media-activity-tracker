@@ -5,6 +5,8 @@ import {
   ShieldIcon,
   UserCogIcon,
   BellIcon,
+  LogInIcon,
+  UserPlusIcon,
 } from "lucide-react";
 import { SidebarItem } from "./model/sidebar-item";
 
@@ -47,5 +49,23 @@ export const SidebarItems: SidebarItem[] = [
         icon: <BellIcon size={18} />,
       },
     ],
+  },
+];
+
+export const AnonymousSidebarItems: SidebarItem[] = [
+  {
+    label: "Home",
+    href: "/",
+    icon: <HomeIcon />,
+  },
+  {
+    label: "Login",
+    href: "/auth/login",
+    icon: <LogInIcon />,
+  },
+  {
+    label: "Register",
+    href: "/auth/register",
+    icon: <UserPlusIcon />,
   },
 ];

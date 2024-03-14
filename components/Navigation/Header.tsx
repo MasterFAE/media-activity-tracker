@@ -31,18 +31,16 @@ const Header = () => {
             <span className="font-bold text-xl flex ">Logo</span>
           </Link>
         </div>
+        <div className="block md:hidden">
+          <MobileNavbar />
+        </div>
 
         <div className="hidden md:block">
           {isInApp ? (
-            <>
-              <UserAvatar
-                username={userMock.username}
-                avatarUrl={userMock.avatarUrl}
-              />
-              <div className="block md:hidden">
-                <MobileNavbar />
-              </div>
-            </>
+            <UserAvatar
+              username={userMock.username}
+              avatarUrl={userMock.avatarUrl}
+            />
           ) : (
             <div className="flex space-x-2">
               <Link href={"/auth/login"}>

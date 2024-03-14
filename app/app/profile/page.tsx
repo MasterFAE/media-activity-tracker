@@ -1,24 +1,20 @@
-import SavedCard from "@/components/SavedCard/SavedCard";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
-import { progress, savedMock } from "@/model/mock";
+import SavedCard from "@/components/SavedCard/SavedCard";
+import { progress, savedMock, userMock } from "@/model/mock";
 import { Badge } from "@/components/ui/badge";
 import ProfileSettingsDropdown from "@/components/Profile/ProfileSettingsDropdown";
 import UserAvatar from "@/components/UserAvatar";
 
-const username = "shadcn";
 const ProfilePage = () => {
+  const user = userMock;
   return (
     <main className="p-12 flex flex-col w-full">
       <div>
         <div className="flex justify-between">
           <div className="flex items-center gap-x-2">
-            <UserAvatar
-              username={username}
-              avatarUrl="https://github.com/shadcn.png"
-            />
+            <UserAvatar username={user.username} avatarUrl={user.avatarUrl} />
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl">{username}</h1>
+              <h1 className="text-2xl">{user.username}</h1>
               <ProfileSettingsDropdown user={null} />
             </div>
           </div>
