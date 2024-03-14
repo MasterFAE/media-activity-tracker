@@ -12,7 +12,7 @@ import { type FormField as FormFieldType } from "@/types";
 import { ControllerRenderProps } from "react-hook-form";
 
 type Props = {
-  field: ControllerRenderProps;
+  field: ControllerRenderProps<any, any>;
   formField: FormFieldType<any>;
 };
 
@@ -21,7 +21,7 @@ const CustomTypeFormItem = ({ field, formField }: Props) => {
     case "boolean":
       return (
         <FormItem>
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 items-center">
             <FormControl>
               <Checkbox
                 {...field}

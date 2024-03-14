@@ -11,6 +11,8 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import CustomTypeFormItem from "./CustomTypeFormItem";
+import ButtonWithLoading from "../ButtonWithLoading";
+import Link from "next/link";
 
 type FormSchema = z.infer<typeof registerSchema>;
 const RegisterForm = () => {
@@ -49,14 +51,13 @@ const RegisterForm = () => {
       });
       return;
     }
-
     // ✅ This will be type-safe and validated.
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
+      console.log(values);
+      router.push("/auth/sign-up");
     }, 2500);
-    console.log(values);
-    router.push("auth/login");
   }
 
   return (
@@ -85,9 +86,21 @@ const RegisterForm = () => {
               )}
             />
           ))}
-          <Button disabled={isSubmitting} type="submit" className="float-right">
-            {isSubmitting ? "Signing Up..." : "Sign Up"}
-          </Button>
+
+          <div className="flex space-x-4 justify-end">
+            <Link href={"/auth/sign-up"}>
+              <Button type="button" variant={"outline"}>
+                Sign In
+              </Button>
+            </Link>
+
+            <ButtonWithLoading
+              isLoading={isSubmitting}
+              disabled={isSubmitting}
+              type="submit">
+              Sign Up
+            </ButtonWithLoading>
+          </div>
         </form>
       </Form>
     </>
@@ -118,9 +131,9 @@ const FormFields: FormFieldType<FormSchema>[] = [
     password: true,
   },
   {
-    label: "Accept Terms",
+    label: "Accept Terms and Conditions",
     name: "acceptTerms",
-    description: "I agree to the terms and conditions",
+    // description: "I agree to the terms and conditions",
   },
 ];
 
