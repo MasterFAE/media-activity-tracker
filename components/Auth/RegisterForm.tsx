@@ -133,6 +133,7 @@ const FormFields: FormFieldType<FormSchema>[] = [
   {
     label: "Accept Terms and Conditions",
     name: "acceptTerms",
+    type: "checkbox",
     // description: "I agree to the terms and conditions",
   },
 ];

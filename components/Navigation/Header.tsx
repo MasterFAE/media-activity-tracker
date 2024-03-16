@@ -43,10 +43,10 @@ const Header = () => {
             />
           ) : (
             <div className="flex space-x-2">
-              <Link href={"/auth/login"}>
+              <Link href={"/auth/sign-up"}>
                 <Button variant={"outline"}>Sign Up</Button>
               </Link>
-              <Link href={"/auth/login"}>
+              <Link href={"/auth/sign-in"}>
                 <Button>Sign In</Button>
               </Link>
             </div>

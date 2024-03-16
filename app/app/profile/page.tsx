@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import ProfileSettingsDropdown from "@/components/Profile/ProfileSettingsDropdown";
 import UserAvatar from "@/components/UserAvatar";
 
+import CreateMediaDialog from "@/components/Profile/CreateMediaDialog";
+
 const ProfilePage = () => {
   const user = userMock;
   return (
@@ -32,8 +34,11 @@ const ProfilePage = () => {
       </div>
 
       <div>
-        <h2 className="text-xl font-bold mt-12 my-2">Progress</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="flex items-center space-x-3 mt-12 mb-2">
+          <h2 className="text-2xl font-bold">Progress</h2>
+          <CreateMediaDialog />
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {savedMock.map((item) => (
             <SavedCard key={item.id} item={item} />
           ))}

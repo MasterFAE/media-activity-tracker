@@ -11,4 +11,11 @@ export type FormField<T> = {
   name: keyof T;
   description?: string;
   password?: boolean;
+  type?: "text" | "password" | "multiselect" | "dropdown" | "checkbox";
+  dropdownItems?: FormDropdownItem[];
+};
+
+export type FormDropdownItem = {
+  label: string;
+  value: string;
 };

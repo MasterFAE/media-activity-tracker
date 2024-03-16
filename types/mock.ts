@@ -1,3 +1,5 @@
+export const CategoryTypes: any[] = ["Book", "Tv Series", "Movie"] as const;
+
 export type SavedMock = {
   id: string;
   name: string;

@@ -6,11 +6,6 @@ export const registerSchema = z.object({
   password: z.string().min(8),
   passwordConfirmation: z.string().min(8),
   acceptTerms: z.boolean(),
-  // z.literal(true, {
-  //   errorMap: (error) => ({
-  //     message: "You must accept the terms",
-  //   })
-  // }),
 });
 
 export const loginSchema = z.object({
