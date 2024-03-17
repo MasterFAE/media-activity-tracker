@@ -10,7 +10,6 @@ export type FormField<T> = {
   placeholder?: string;
   name: keyof T;
   description?: string;
-  password?: boolean;
   type?:
     | "text"
     | "password"

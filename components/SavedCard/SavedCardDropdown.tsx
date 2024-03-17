@@ -8,32 +8,20 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
-} from "../ui/dialog";
-import {
   EllipsisVerticalIcon,
   PercentIcon,
   LayoutListIcon,
-  TrashIcon,
 } from "lucide-react";
-import { Button } from "../ui/button";
-import { DialogHeader, DialogFooter } from "../ui/dialog";
 import { SavedMock } from "@/types/mock";
+import DeleteDialog from "../DeleteDialog";
+import UpdateMediaDialog from "../Profile/UpdateMediaDialog";
 
 type Props = {
   item: SavedMock;
 };
 
 const SavedCardDropdown = ({ item }: Props) => {
-  const handleDelete = () => {
-    console.log("Deleted");
-  };
-
+  const handleDelete = () => {};
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -50,31 +38,21 @@ const SavedCardDropdown = ({ item }: Props) => {
           <LayoutListIcon className="w-3 h-3 mr-2" />
           See Details
         </DropdownMenuItem>
+        {/* 
+          If preventDefault is not set,
+          * dialog will close after clicking this
+          * input inside the children will lose focus everytime the mouse moves
+        */}
+        <DropdownMenuItem
+          onPointerLeave={(event) => event.preventDefault()}
+          onPointerMove={(event) => event.preventDefault()}
+          onSelect={(e) => e.preventDefault()}>
+          <UpdateMediaDialog item={item} />
+        </DropdownMenuItem>
         <DropdownMenuItem
           onSelect={(e) => e.preventDefault()}
-          className="text-red-600">
-          <Dialog>
-            <DialogTrigger>
-              <div className="flex items-center">
-                <TrashIcon className="w-3 h-3 mr-2" />
-                Delete
-              </div>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Are you sure?</DialogTitle>
-                <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  everything related to this item.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button variant={"destructive"} onClick={handleDelete}>
-                  Delete
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          className="text-red-600 ">
+          <DeleteDialog handleDelete={handleDelete} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -3,7 +3,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { registerSchema } from "@/lib/schemas/auth-schema";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { type FormField as FormFieldType } from "@/types";
@@ -13,6 +12,14 @@ import { useRouter } from "next/navigation";
 import CustomTypeFormItem from "./CustomTypeFormItem";
 import ButtonWithLoading from "../ButtonWithLoading";
 import Link from "next/link";
+
+export const registerSchema = z.object({
+  email: z.string().email(),
+  username: z.string().min(3).max(20),
+  password: z.string().min(8),
+  passwordConfirmation: z.string().min(8),
+  acceptTerms: z.boolean(),
+});
 
 type FormSchema = z.infer<typeof registerSchema>;
 const RegisterForm = () => {
@@ -122,13 +129,13 @@ const FormFields: FormFieldType<FormSchema>[] = [
     label: "Password",
     placeholder: "eg. verySecurePassword!123",
     name: "password",
-    password: true,
+    type: "password",
   },
   {
     label: "Password Confirmation",
     placeholder: "eg. verySecurePassword!123",
     name: "passwordConfirmation",
-    password: true,
+    type: "password",
   },
   {
     label: "Accept Terms and Conditions",

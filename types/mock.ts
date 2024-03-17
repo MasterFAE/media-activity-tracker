@@ -12,6 +12,7 @@ export type SavedMock = {
   category: CategoryMock;
   totalProgress: number;
   duration: number;
+  description?: string;
 };
 
 export type CategoryMock = {

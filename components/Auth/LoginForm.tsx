@@ -3,7 +3,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { loginSchema } from "@/lib/schemas/auth-schema";
 import { Form, FormField } from "@/components/ui/form";
 import { type FormField as FormFieldType } from "@/types";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
@@ -13,6 +12,11 @@ import CustomTypeFormItem from "./CustomTypeFormItem";
 import ButtonWithLoading from "../ButtonWithLoading";
 import { Button } from "../ui/button";
 import Link from "next/link";
+
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
 
 type FormSchema = z.infer<typeof loginSchema>;
 const LoginForm = () => {
@@ -99,7 +103,7 @@ const FormFields: FormFieldType<FormSchema>[] = [
     label: "Password",
     placeholder: "eg. verySecurePassword!123",
     name: "password",
-    password: true,
+    type: "password",
   },
 ];
 

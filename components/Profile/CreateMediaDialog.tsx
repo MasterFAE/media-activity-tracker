@@ -19,7 +19,7 @@ const formSchema = z.object({
   name: z.string().min(3).max(32),
   description: z.string().max(500).optional(),
   type: z.string().optional(),
-  length: z.preprocess(Number, z.number()),
+  length: z.preprocess(Number, z.number().min(1)),
 });
 
 const initialFormState: FormSchema = {
@@ -36,45 +36,6 @@ const CreateMediaDialog = () => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
-  return (
-    <DialogWithDrawer
-      onClose={() => form.reset(initialFormState)}
-      title={"Create Tracker"}
-      footer={undefined}
-      description={"Create a new tracker to keep track of your progress."}
-      trigger={
-        <Button variant={"ghost"} size={"icon"}>
-          <PlusIcon />
-        </Button>
-      }>
-      <CreateMediaForm
-        {...{ isSubmitting, setIsSubmitting, formFields, setFormFields, form }}
-      />
-    </DialogWithDrawer>
-  );
-};
-
-type CreateMediaFormProps = {
-  isSubmitting: boolean;
-  setIsSubmitting: (value: boolean) => void;
-  formFields: FormFieldType<FormSchema>[];
-  setFormFields: (value: FormFieldType<FormSchema>[]) => void;
-  form: UseFormReturn<FormSchema>;
-};
-
-const CreateMediaForm = ({
-  isSubmitting,
-  setIsSubmitting,
-  formFields,
-  setFormFields,
-  form,
-}: CreateMediaFormProps) => {
-  useEffect(() => {
-    let value = form.watch("categoryName");
-    !value || value.length === 0
-      ? setFormFields([...FormFields])
-      : setFormFields([...FormFields, ...newFormFields(value)]);
-  }, [form.watch("categoryName")]);
 
   const onSubmit = (values: FormSchema) => {
     console.log(values);
@@ -84,43 +45,107 @@ const CreateMediaForm = ({
     }, 2500);
   };
 
+  const onSubmitEvent = (e: any) =>
+    document.getElementById("submitCreateMediaForm")?.click();
+
+  const onReset = () => form.reset(initialFormState);
+
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 w-full">
-        {formFields.map((formField) => (
-          <FormField
-            key={uuidv4()}
-            control={form.control}
-            name={formField.name}
-            render={({ field }) => (
-              <CustomTypeFormItem
-                field={field}
-                formField={formField}
-                dropdownItems={formField.dropdownItems}
-              />
-            )}
+    <DialogWithDrawer
+      onClose={() => form.reset(initialFormState)}
+      title={"Create Tracker"}
+      footer={
+        <FooterComponent
+          onSubmit={onSubmitEvent}
+          onReset={onReset}
+          isSubmitting={isSubmitting}
+        />
+      }
+      description={"Create a new tracker to keep track of your progress."}
+      trigger={
+        <Button variant={"ghost"} size={"icon"}>
+          <PlusIcon />
+        </Button>
+      }>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-5 w-full">
+          <MediaFormFields
+            {...{
+              formFields,
+              setFormFields,
+              form,
+            }}
           />
-        ))}
-        <div className="flex space-x-2">
-          <ButtonWithLoading
-            className="w-full lg:w-auto"
-            type="submit"
-            isLoading={isSubmitting}>
-            Submit
-          </ButtonWithLoading>
-          <Button
-            onClick={() => form.reset(initialFormState)}
-            type="button"
-            variant={"outline"}>
-            Clear
-          </Button>
-        </div>
-      </form>
-    </Form>
+          <input type="submit" className="hidden" id="submitCreateMediaForm" />
+        </form>
+      </Form>
+    </DialogWithDrawer>
   );
 };
 
-function newFormFields(value: string): FormFieldType<FormSchema>[] {
+type MediaFormFieldsProps = {
+  formFields: FormFieldType<FormSchema>[];
+  setFormFields: (value: FormFieldType<FormSchema>[]) => void;
+  form: UseFormReturn<FormSchema>;
+};
+
+const MediaFormFields = (props: MediaFormFieldsProps) => {
+  const { formFields, form, setFormFields } = props;
+  useEffect(() => {
+    let value = form.watch("categoryName");
+    !value || value.length === 0
+      ? setFormFields([...FormFields])
+      : setFormFields([...FormFields, ...newFormFields<FormSchema>(value)]);
+  }, [form.watch("categoryName")]);
+
+  return (
+    <>
+      {/* app-index.js:35 Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components */}
+      {formFields.map((formField, key) => (
+        <FormField
+          key={key}
+          control={form.control}
+          name={formField.name}
+          render={({ field }) => (
+            <CustomTypeFormItem
+              field={field}
+              formField={formField}
+              dropdownItems={formField.dropdownItems}
+            />
+          )}
+        />
+      ))}
+    </>
+  );
+};
+
+type FooterComponentProps = {
+  isSubmitting: boolean;
+  onSubmit: (e: any) => void;
+  onReset: () => void;
+};
+
+const FooterComponent = (props: FooterComponentProps) => {
+  const { isSubmitting, onSubmit, onReset } = props;
+  return (
+    <div className="flex space-x-2">
+      <ButtonWithLoading
+        className="w-full lg:w-auto"
+        type="button"
+        onClick={onSubmit}
+        isLoading={isSubmitting}>
+        Submit
+      </ButtonWithLoading>
+      <Button onClick={onReset} type="button" variant={"outline"}>
+        Clear
+      </Button>
+    </div>
+  );
+};
+
+export function newFormFields<T>(value: string): FormFieldType<T>[] {
   let lengthType =
     value == CategoryTypes.Book
       ? "Pages"
@@ -130,18 +155,18 @@ function newFormFields(value: string): FormFieldType<FormSchema>[] {
   return [
     {
       label: "Name",
-      name: "name",
+      name: "name" as keyof T,
       placeholder: "What do you want to track?",
     },
     {
       label: lengthType,
-      name: "length",
+      name: "length" as keyof T,
       placeholder: `How many ${lengthType.toLowerCase()}?`,
       type: "number",
     },
     {
       label: "Description",
-      name: "description",
+      name: "description" as keyof T,
       placeholder: "Add a description, optional.",
     },
   ];

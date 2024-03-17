@@ -50,7 +50,7 @@ const DialogWithDrawer = (props: Props) => {
     return (
       <Drawer open={isOpen} onOpenChange={handleChange}>
         <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-        <DrawerContent>
+        <DrawerContent onOpenAutoFocus={(e) => e.preventDefault()}>
           <DrawerHeader className="text-left">
             <DrawerTitle>{title}</DrawerTitle>
             {description && (
@@ -58,7 +58,8 @@ const DialogWithDrawer = (props: Props) => {
             )}
           </DrawerHeader>
           <div className="p-4">{children}</div>
-          <DrawerFooter className="pt-2">
+          <DrawerFooter>
+            {footer}
             <DrawerClose asChild>
               {close ? close : <Button variant="outline">Cancel</Button>}
             </DrawerClose>
@@ -70,7 +71,7 @@ const DialogWithDrawer = (props: Props) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleChange}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent>
+      <DialogContent onChange={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}

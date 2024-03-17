@@ -22,7 +22,12 @@ type Props = {
   dropdownItems?: FormDropdownItem[];
 };
 
-const CustomTypeFormItem = ({ field, formField, dropdownItems }: Props) => {
+const CustomTypeFormItem = ({
+  field,
+  formField,
+  dropdownItems,
+  ...props
+}: Props) => {
   return (
     <FormItem>
       <div className="flex flex-col space-y-1">
@@ -32,7 +37,7 @@ const CustomTypeFormItem = ({ field, formField, dropdownItems }: Props) => {
         <FormMessage className="text-xs" />
       </div>
       <FormControl>
-        <CustomFormFieldBody {...{ field, formField, dropdownItems }} />
+        <CustomFormFieldBody {...{ field, formField, dropdownItems, props }} />
       </FormControl>
       {formField.description && (
         <FormDescription>{formField.description}</FormDescription>
@@ -41,7 +46,12 @@ const CustomTypeFormItem = ({ field, formField, dropdownItems }: Props) => {
   );
 };
 
-const CustomFormFieldBody = ({ formField, field, dropdownItems }: Props) => {
+const CustomFormFieldBody = ({
+  formField,
+  field,
+  dropdownItems,
+  ...props
+}: Props) => {
   switch (formField.type) {
     case "checkbox":
       return (
@@ -83,7 +93,7 @@ const CustomFormFieldBody = ({ formField, field, dropdownItems }: Props) => {
             <div className="flex flex-col min-w-[150px]">
               {dropdownItems.map((item, key) => (
                 <span
-                  key={key}
+                  key={item.label}
                   className={` ${
                     selectedValue?.value == item.value &&
                     "bg-primary-foreground"
@@ -109,9 +119,9 @@ const CustomFormFieldBody = ({ formField, field, dropdownItems }: Props) => {
     default:
       return (
         <Input
-          type={formField.type}
           placeholder={formField.placeholder}
           {...field}
+          type={formField.type}
         />
       );
   }
