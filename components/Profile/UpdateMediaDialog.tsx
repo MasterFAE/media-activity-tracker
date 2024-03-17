@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DialogWithDrawer from "../DialogWithDrawer";
 import ButtonWithLoading from "../ButtonWithLoading";
 import { PenBoxIcon } from "lucide-react";
 import { z } from "zod";
-import { FormField as FormFieldType } from "@/types";
+import type { FormField as FormFieldType } from "@/types";
 import { SavedMock } from "@/types/mock";
-import { newFormFields } from "./CreateMediaDialog";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { Form, FormField } from "../ui/form";
 import CustomTypeFormItem from "../Auth/CustomTypeFormItem";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
+import { generateMediaFormFields } from "@/lib/utils";
 
 type FormSchema = z.infer<typeof updateSchema>;
 const updateSchema = z.object({
@@ -20,7 +20,7 @@ const updateSchema = z.object({
 });
 
 const UpdateMediaDialog = ({ item }: { item: SavedMock }) => {
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const defaultValues = {
     name: item.name,
@@ -33,7 +33,7 @@ const UpdateMediaDialog = ({ item }: { item: SavedMock }) => {
     defaultValues,
   });
 
-  const formFields = newFormFields<FormSchema>(
+  const formFields = generateMediaFormFields<FormSchema>(
     item.category.name as "Book" | "Movie" | "TV Series"
   );
 
@@ -54,13 +54,14 @@ const UpdateMediaDialog = ({ item }: { item: SavedMock }) => {
   const onSubmitEvent = () =>
     document.getElementById("submitUpdateMediaForm")?.click();
 
+  const onReset = () => form.reset(defaultValues);
   return (
     <DialogWithDrawer
-      onClose={() => form.reset(defaultValues)}
+      onClose={onReset}
       title={"Update Tracker"}
       footer={
         <FooterComponent
-          onReset={() => form.reset(defaultValues)}
+          onReset={onReset}
           onSubmit={onSubmitEvent}
           isSubmitting={isSubmitting}
         />

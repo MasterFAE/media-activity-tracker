@@ -12,6 +12,7 @@ import { type FormField as FormFieldType } from "@/types";
 import CustomTypeFormItem from "../Auth/CustomTypeFormItem";
 import ButtonWithLoading from "../ButtonWithLoading";
 import { v4 as uuidv4 } from "uuid";
+import { generateMediaFormFields } from "@/lib/utils";
 
 type FormSchema = z.infer<typeof formSchema>;
 const formSchema = z.object({
@@ -52,7 +53,7 @@ const CreateMediaDialog = () => {
 
   return (
     <DialogWithDrawer
-      onClose={() => form.reset(initialFormState)}
+      onClose={onReset}
       title={"Create Tracker"}
       footer={
         <FooterComponent
@@ -97,28 +98,28 @@ const MediaFormFields = (props: MediaFormFieldsProps) => {
     let value = form.watch("categoryName");
     !value || value.length === 0
       ? setFormFields([...FormFields])
-      : setFormFields([...FormFields, ...newFormFields<FormSchema>(value)]);
+      : setFormFields([
+          ...FormFields,
+          ...generateMediaFormFields<FormSchema>(value),
+        ]);
   }, [form.watch("categoryName")]);
 
-  return (
-    <>
-      {/* app-index.js:35 Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components */}
-      {formFields.map((formField, key) => (
-        <FormField
-          key={key}
-          control={form.control}
-          name={formField.name}
-          render={({ field }) => (
-            <CustomTypeFormItem
-              field={field}
-              formField={formField}
-              dropdownItems={formField.dropdownItems}
-            />
-          )}
+  let fields = formFields.map((formField, key) => (
+    <FormField
+      key={formField.name + key}
+      control={form.control}
+      name={formField.name}
+      render={({ field }) => (
+        <CustomTypeFormItem
+          field={field}
+          formField={formField}
+          dropdownItems={formField.dropdownItems}
         />
-      ))}
-    </>
-  );
+      )}
+    />
+  ));
+  // app-index.js:35 Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components
+  return fields;
 };
 
 type FooterComponentProps = {
@@ -144,33 +145,6 @@ const FooterComponent = (props: FooterComponentProps) => {
     </div>
   );
 };
-
-export function newFormFields<T>(value: string): FormFieldType<T>[] {
-  let lengthType =
-    value == CategoryTypes.Book
-      ? "Pages"
-      : value == CategoryTypes.Movie
-      ? "Minutes"
-      : "Episodes";
-  return [
-    {
-      label: "Name",
-      name: "name" as keyof T,
-      placeholder: "What do you want to track?",
-    },
-    {
-      label: lengthType,
-      name: "length" as keyof T,
-      placeholder: `How many ${lengthType.toLowerCase()}?`,
-      type: "number",
-    },
-    {
-      label: "Description",
-      name: "description" as keyof T,
-      placeholder: "Add a description, optional.",
-    },
-  ];
-}
 
 const FormFields: FormFieldType<FormSchema>[] = [
   {
