@@ -10,10 +10,11 @@ import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { FormDropdownItem, type FormField as FormFieldType } from "@/types";
 import { ControllerRenderProps } from "react-hook-form";
-import { Check, ChevronsUpDown, Command } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
+import { Separator } from "../ui/separator";
 
 type Props = {
   field: ControllerRenderProps<any, any>;
@@ -26,7 +27,7 @@ const CustomTypeFormItem = ({ field, formField, dropdownItems }: Props) => {
     <FormItem>
       <div className="flex flex-col space-y-1">
         {formField.type != "checkbox" && (
-          <FormLabel> formField.label</FormLabel>
+          <FormLabel>{formField.label}</FormLabel>
         )}
         <FormMessage className="text-xs" />
       </div>
@@ -55,7 +56,7 @@ const CustomFormFieldBody = ({ formField, field, dropdownItems }: Props) => {
       );
     case "dropdown":
       const [open, setOpen] = React.useState(false);
-      if (!dropdownItems) return <>No value provided for dropdown</>;
+      if (!dropdownItems) return <>DEBUG: No value provided for dropdown</>;
       let selectedValue = dropdownItems.find(
         (type) => type.value === field.value
       );
@@ -70,7 +71,7 @@ const CustomFormFieldBody = ({ formField, field, dropdownItems }: Props) => {
                 variant="outline"
                 role="combobox"
                 className={cn(
-                  "w-[200px] justify-between",
+                  "justify-between w-full",
                   !field.value && "text-muted-foreground"
                 )}>
                 {inputLabel}
@@ -78,19 +79,28 @@ const CustomFormFieldBody = ({ formField, field, dropdownItems }: Props) => {
               </Button>
             </FormControl>
           </PopoverTrigger>
-          <PopoverContent className="w-fit">
-            <div className="flex flex-col space-y-1">
+          <PopoverContent align="start" side="top" className="w-full p-0">
+            <div className="flex flex-col min-w-[150px]">
               {dropdownItems.map((item, key) => (
-                <Button
-                  type="button"
-                  variant={"ghost"}
+                <span
                   key={key}
-                  onClick={() => {
-                    field.onChange(item.value);
-                    setOpen(false);
-                  }}>
-                  {item.label}
-                </Button>
+                  className={` ${
+                    selectedValue?.value == item.value &&
+                    "bg-primary-foreground"
+                  }`}>
+                  <Button
+                    type="button"
+                    variant={"ghost"}
+                    key={key}
+                    className="text-center rounded-none w-full"
+                    onClick={() => {
+                      field.onChange(item.value);
+                      setOpen(false);
+                    }}>
+                    {item.label}
+                  </Button>
+                  <Separator />
+                </span>
               ))}
             </div>
           </PopoverContent>
@@ -99,7 +109,7 @@ const CustomFormFieldBody = ({ formField, field, dropdownItems }: Props) => {
     default:
       return (
         <Input
-          type={formField.password ? "password" : "text"}
+          type={formField.type}
           placeholder={formField.placeholder}
           {...field}
         />

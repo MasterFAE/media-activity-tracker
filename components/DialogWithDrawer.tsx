@@ -32,15 +32,23 @@ type Props = {
   footer: React.ReactNode;
   trigger: React.ReactNode;
   close?: React.ReactNode;
+  onClose?: () => void;
 };
 
 const DialogWithDrawer = (props: Props) => {
-  const { title, description, children, footer, trigger, close } = props;
+  const { title, description, children, footer, trigger, close, onClose } =
+    props;
   const [isOpen, setIsOpen] = React.useState(false);
   const deviceType = useDeviceWidth();
+
+  const handleChange = (status: boolean) => {
+    setIsOpen(status);
+    if (!status && onClose) onClose();
+  };
+
   if (deviceType === "phone" || deviceType === "tablet") {
     return (
-      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer open={isOpen} onOpenChange={handleChange}>
         <DrawerTrigger asChild>{trigger}</DrawerTrigger>
         <DrawerContent>
           <DrawerHeader className="text-left">
@@ -49,7 +57,7 @@ const DialogWithDrawer = (props: Props) => {
               <DrawerDescription>{description}</DrawerDescription>
             )}
           </DrawerHeader>
-          {children}
+          <div className="p-4">{children}</div>
           <DrawerFooter className="pt-2">
             <DrawerClose asChild>
               {close ? close : <Button variant="outline">Cancel</Button>}
@@ -60,7 +68,7 @@ const DialogWithDrawer = (props: Props) => {
     );
   }
   return (
-    <Dialog open={isOpen} onOpenChange={(state) => setIsOpen(state)}>
+    <Dialog open={isOpen} onOpenChange={handleChange}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>

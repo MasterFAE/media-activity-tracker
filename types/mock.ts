@@ -1,4 +1,8 @@
-export const CategoryTypes: any[] = ["Book", "Tv Series", "Movie"] as const;
+export enum CategoryTypes {
+  Book = "Book",
+  TvSeries = "Tv Series",
+  Movie = "Movie",
+}
 
 export type SavedMock = {
   id: string;
