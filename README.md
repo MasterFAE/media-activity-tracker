@@ -1,7 +1,6 @@
 # TODO
 
 - Home page responsive
-- Update Item Modal
 - Add Progress Modal
 - Github tarzı takvim?
 - Profil ayar buton fonksiyonelitesi
@@ -16,6 +15,7 @@
 - Mobile Navbar
 - Login / Register Page
 - Add Item Modal
+- Update Item Modal
 
 # Responsive dialog - Drawer
 

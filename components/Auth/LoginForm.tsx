@@ -36,7 +36,7 @@ const LoginForm = () => {
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
-      // router.push("app");
+      router.push("/app");
     }, 2500);
     console.log(values);
   }
